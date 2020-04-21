@@ -34,7 +34,8 @@
 
 
 
- const getName = "Your full name";
+ const getFirstName = "Your first name";
+ const getLastName = "Your last name";
  const invalidInput = "Invalid input!";
  const choiceerror = "Please select a number from 1 to 6";
  const choiceerror2 = "Please select a number from 1 to 8";
@@ -87,7 +88,8 @@
  module.exports.statistics = statistics;
 
 
- module.exports.getName = getName;
+ module.exports.getFirstName = getFirstName;
+ module.exports.getLastName = getLastName;
  module.exports.invalidInput = invalidInput;
  module.exports.getphone = getphone; 
  module.exports.hospitalname = hospitalname;

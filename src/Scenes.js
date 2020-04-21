@@ -135,7 +135,7 @@ if (dotenv.error) {
          report.enter((ctx) => {
             // enter a scene
             ctx.reply(Strings.greet);
-            ctx.flow.enter("getnameScene", ctx.flow.state);         
+            ctx.flow.enter("getFirstNameScene", ctx.flow.state);         
             // Log
             new Log(ctx).log("Clicked on Report button!");
          });
@@ -170,34 +170,64 @@ if (dotenv.error) {
 
 
      // data collection ps: the collector is a grate name
-     getNameScene() {
-         const getname = new Scene("getnameScene");
-         getname.enter((ctx) => {
-             ctx.reply(Strings.getName, this.keyboard.cancelKeyboard())
+     getFirstNameScene() {
+         const getfirstname = new Scene("getFirstNameScene");
+         getfirstname.enter((ctx) => {
+             ctx.reply(Strings.getFirstName, this.keyboard.cancelKeyboard())
          });
 
 
-         getname.on("message", (ctx) => {
+         getfirstname.on("message", (ctx) => {
              let msg = ctx.message.text;
 
              if (msg == "" || msg == undefined) {
                  ctx.reply(Strings.invalidInput);
 
-                 ctx.flow.enter("getnameScene", ctx.flow.state);
+                 ctx.flow.enter("getFirstNameScene", ctx.flow.state);
              } else {
                 // save to state
-                ctx.flow.state.full_name = msg;
+                ctx.flow.state.first_name = msg;
 
                 // enter scene
-                ctx.flow.enter("getphoneScene", ctx.flow.state);
+                ctx.flow.enter("getLastNameScene", ctx.flow.state);
              }
 
             
          });
 
-         getname.leave((ctx) => {});
+         getfirstname.leave((ctx) => {});
 
-         return getname;
+         return getfirstname;
+     }
+
+     getLastNameScene(){
+        const getlastname = new Scene("getLastNameScene");
+        getlastname.enter((ctx) => {
+            ctx.reply(Strings.getLastName, this.keyboard.cancelKeyboard())
+        });
+
+
+        getlastname.on("message", (ctx) => {
+            let msg = ctx.message.text;
+
+            if (msg == "" || msg == undefined) {
+                ctx.reply(Strings.invalidInput);
+
+                ctx.flow.enter("getLastNameScene", ctx.flow.state);
+            } else {
+               // save to state
+               ctx.flow.state.last_name = msg;
+
+               // enter scene
+               ctx.flow.enter("getphoneScene", ctx.flow.state);
+            }
+
+           
+        });
+
+        getlastname.leave((ctx) => {});
+
+        return getlastname;
      }
 
 
@@ -499,7 +529,8 @@ if (dotenv.error) {
         fin.enter((ctx) => {
             
         let data = {
-            name: ctx.flow.state.full_name,
+            firstName: ctx.flow.state.first_name,
+            lastName: ctx.flow.state.last_name,
             phone: ctx.flow.state.phoneNumber, 
             postName: ctx.flow.state.hospitalpostname,
             AreaofWork:  Strings.area_of_work_list.filter((area,i)=>{return ctx.flow.state.areaOfWork[i]}),
@@ -516,7 +547,7 @@ if (dotenv.error) {
             console.log("Writing to spreadsheet Done");
         }
         
-            ctx.reply("Name: " + data.name + "\nPhone: " + data.phone +   "\nHospital post name: " + data.postName +   "\nArea of Work: " + data.AreaofWork + "\nLongitude: " + data.long + "\nLatitude: " + data.lat + "\nSymptom: " + data.symptoms + "\nPPEsUsed: " + data.PPEsUsed);
+            ctx.reply("Name: " + data.firstName +" "+ data.lastName + "\nPhone: " + data.phone +   "\nHospital post name: " + data.postName +   "\nArea of Work: " + data.AreaofWork + "\nLongitude: " + data.long + "\nLatitude: " + data.lat + "\nSymptom: " + data.symptoms + "\nPPEsUsed: " + data.PPEsUsed);
 
             // leave
             ctx.flow.leave();

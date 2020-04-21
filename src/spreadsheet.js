@@ -25,7 +25,8 @@ module.exports.writeToSpreadsheet = async function writeToSpreadsheet(data) {
 
   const row = {
     date: moment().format('DD-MM-YYYY'),
-    name: data.name,
+    firstName: data.name,
+    lastName: data.name,
     phone: data.phone,
     postName: data.postName,
     long: data.long,
